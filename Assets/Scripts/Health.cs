@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
     [SerializeField] private Button _hPIncrease;
     [SerializeField] private Button _hPDecrease;
+    [SerializeField] private UnityEvent _hPChanged;
 
     private const float _step = 2f;
     private const float _minValueHP = 0;
@@ -23,10 +25,12 @@ public class Health : MonoBehaviour
     private void Heal()
     {
         HealthValue = Mathf.Clamp(HealthValue + _step, _minValueHP, _maxValueHP);
+        _hPChanged.Invoke();
     }
 
     private void TakeDamage()
     {
         HealthValue = Mathf.Clamp(HealthValue - _step, _minValueHP, _maxValueHP);
+        _hPChanged.Invoke();
     }
 }

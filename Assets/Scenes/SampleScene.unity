@@ -277,7 +277,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hPIncrease: {fileID: 735115321}
   _hPDecrease: {fileID: 284022263}
-  _hPDisplay: {fileID: 837273044}
+  _hPChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1169737780}
+        m_TargetAssemblyTypeName: HealtBar, Assembly-CSharp
+        m_MethodName: HPChange
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!212 &438613816
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -816,7 +830,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 20
   m_WholeNumbers: 0
-  m_Value: 20
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -937,8 +951,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18f2baa9923b3ec46b18417e6f05e035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 438613814}
   _healtBar: {fileID: 837273044}
+  _health: {fileID: 438613815}
 --- !u!1 &1271964732
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,7 +16,7 @@ public class HealtBar : MonoBehaviour
         _healtBar.value = _health.HealthValue;
     }
 
-    private void Update()
+    public void HPChange()
     {
         if(_healtBar.value > _health.HealthValue)
         {

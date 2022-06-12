@@ -7,49 +7,43 @@ public class Health : MonoBehaviour
 {
     [SerializeField] private Button _hPIncrease;
     [SerializeField] private Button _hPDecrease;
-    [SerializeField] private Slider _hPDisplay;
 
     private const float _step = 2f;
     private const float _minimalStep = 0.02f;
+    private const float _minValueHP = 0;
+    private const float _maxValueHP = 20f;
 
     public float HealthValue { get; private set; }
-    
+    public bool IsHealthChange { get; private set; }
+
     private void Start()
     {
-        HealthValue = _hPDisplay.maxValue / 2f;
-        _hPIncrease.onClick.AddListener(HpIncrease);
-        _hPDecrease.onClick.AddListener(HpDecrease);
+        HealthValue = _maxValueHP / 2f;
+        _hPIncrease.onClick.AddListener(Heal);
+        _hPDecrease.onClick.AddListener(TakeDamage);
     }
-    
-    private void HpIncrease()
+
+    private void Heal()
     {
-        float target = Mathf.Clamp(HealthValue + _step, _hPDisplay.minValue, _hPDisplay.maxValue);
+        float target = Mathf.Clamp(HealthValue + _step, _minValueHP, _maxValueHP);
         StartCoroutine(HpChange(target));
     }
 
-    private void HpDecrease()
+    private void TakeDamage()
     {
-        float target = Mathf.Clamp(HealthValue - _step, _hPDisplay.minValue, _hPDisplay.maxValue);
+        float target = Mathf.Clamp(HealthValue - _step, _minValueHP, _maxValueHP);
         StartCoroutine(HpChange(target));
     }
 
     private IEnumerator HpChange(float target)
-    { 
-        if (HealthValue > target)
+    {
+        IsHealthChange = true;
+
+        while (HealthValue != target)
         {
-            while (HealthValue > target)
-            {
-                HealthValue -= _minimalStep;
-                yield return null;
-            }
+            HealthValue = Mathf.MoveTowards(HealthValue,target, _minimalStep);
+            yield return null;
         }
-        else if (HealthValue < target)
-        {
-            while (HealthValue < target)
-            {
-                HealthValue += _minimalStep;
-                yield return null;
-            }
-        }
+        IsHealthChange = false;
     }
 }

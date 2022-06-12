@@ -11,6 +11,9 @@ public class HealtBar : MonoBehaviour
     
     private void Update()
     {
-        _healtBar.value = _health.HealthValue;
+        if (_health.IsHealthChange)
+        {
+            _healtBar.value = _health.HealthValue;
+        }
     }
 }

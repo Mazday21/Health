@@ -15,11 +15,9 @@ public class HealtBar : MonoBehaviour
     {
         _playerHealth = _player.GetComponent<Health>();
     }
-
     
     private void Update()
     {
         _healtBar.value = _playerHealth.HealthValue;
     }
-    //sfgvsr
 }

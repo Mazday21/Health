@@ -10,6 +10,7 @@ public class HealtBar : MonoBehaviour
     [SerializeField] private Health _health;
 
     private const float _minimalStep = 0.02f;
+    private Coroutine _hPChange;
 
     private void OnEnable()
     {
@@ -23,26 +24,11 @@ public class HealtBar : MonoBehaviour
 
     private void HealthChange(float health)
     {
-        if(_healthBar.value > health)
+        if (_hPChange != null)
         {
-            TakeDamage(_healthBar.value - health);
+            StopCoroutine(_hPChange);
         }
-        else if(_healthBar.value < health)
-        {
-            Heal(health - _healthBar.value);
-        }
-    }
-
-    private void Heal(float difference)
-    {
-        float target = Mathf.Clamp(_healthBar.value + difference, _healthBar.minValue, _healthBar.maxValue);
-        StartCoroutine(HpChange(target));
-    }
-
-    private void TakeDamage(float difference)
-    {
-        float target = Mathf.Clamp(_healthBar.value - difference, _healthBar.minValue, _healthBar.maxValue);
-        StartCoroutine(HpChange(target));
+        _hPChange = StartCoroutine(HpChange(health));
     }
 
     private IEnumerator HpChange(float target)

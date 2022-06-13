@@ -6,45 +6,50 @@ using UnityEngine.UI;
 
 public class HealtBar : MonoBehaviour
 {
-    [SerializeField] private Slider _healtBar;
+    [SerializeField] private Slider _healthBar;
     [SerializeField] private Health _health;
 
     private const float _minimalStep = 0.02f;
 
-    private void Start()
+    private void OnEnable()
     {
-        _healtBar.value = _health.HealthValue;
+        _health.HealthChanged += HealthChange;
+    }
+    
+    private void OnDisable()
+    {
+        _health.HealthChanged -= HealthChange;
     }
 
-    public void HPChange()
+    private void HealthChange(float health)
     {
-        if(_healtBar.value > _health.HealthValue)
+        if(_healthBar.value > health)
         {
-            TakeDamage(_healtBar.value - _health.HealthValue);
+            TakeDamage(_healthBar.value - health);
         }
-        else if(_healtBar.value < _health.HealthValue)
+        else if(_healthBar.value < health)
         {
-            Heal(_health.HealthValue - _healtBar.value);
+            Heal(health - _healthBar.value);
         }
     }
 
     private void Heal(float difference)
     {
-        float target = Mathf.Clamp(_healtBar.value + difference, _healtBar.minValue, _healtBar.maxValue);
+        float target = Mathf.Clamp(_healthBar.value + difference, _healthBar.minValue, _healthBar.maxValue);
         StartCoroutine(HpChange(target));
     }
 
     private void TakeDamage(float difference)
     {
-        float target = Mathf.Clamp(_healtBar.value - difference, _healtBar.minValue, _healtBar.maxValue);
+        float target = Mathf.Clamp(_healthBar.value - difference, _healthBar.minValue, _healthBar.maxValue);
         StartCoroutine(HpChange(target));
     }
 
     private IEnumerator HpChange(float target)
     {
-        while (_healtBar.value != target)
+        while (_healthBar.value != target)
         {
-            _healtBar.value = Mathf.MoveTowards(_healtBar.value, target, _minimalStep);
+            _healthBar.value = Mathf.MoveTowards(_healthBar.value, target, _minimalStep);
             yield return null;
         }
     }
